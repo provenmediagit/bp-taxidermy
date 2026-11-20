@@ -193,10 +193,12 @@
   gsap.registerPlugin(ScrollTrigger);
 
   // hero entrance: skull rises into the spotlight, words follow
-  gsap.from(".skull", { y: 120, opacity: 0, scale: 0.92, duration: 1.4, ease: "expo.out", delay: 0.1 });
+  // entrance and scroll-exit live on different elements with explicit values, so a
+  // ScrollTrigger refresh can never snap the skull back to an invisible start state
+  gsap.fromTo(".skull", { y: 120, opacity: 0, scale: 0.92 }, { y: 0, opacity: 1, scale: 1, duration: 1.4, ease: "expo.out", delay: 0.1 });
   gsap.from(".hero-copy > *", { y: 40, opacity: 0, duration: 1, ease: "expo.out", stagger: 0.09, delay: 0.25 });
   // hero exit: skull turns away as you scroll into the work
-  gsap.to(".skull", { rotateY: 28, y: 80, scale: 0.86, opacity: 0.3, ease: "none",
+  gsap.fromTo(".skull-exit", { rotateY: 0, y: 0, scale: 1, opacity: 1 }, { rotateY: 28, y: 80, scale: 0.86, opacity: 0.3, ease: "none",
     scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom top", scrub: true } });
 
   const mm = gsap.matchMedia();
